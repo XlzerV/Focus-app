@@ -2038,7 +2038,7 @@
       theme: null,
       notificationDismissed: false
     });
-    const DEFAULT_VOLUMES = Object.freeze({ rain: 42, white: 32, cafe: 30, lofi: 34 });
+    const DEFAULT_VOLUMES = Object.freeze({ rain: 28, white: 30, cafe: 26, lofi: 30 });
     const MODES = {
       focus: {
         label: 'Focus session',
@@ -2846,7 +2846,7 @@
     });
 
     /* ---------- Ambient sound engine (Web Audio, no files) ---------- */
-    const SOUND_BASE_GAIN = { rain: 0.48, white: 0.30, cafe: 0.42, lofi: 0.44 };
+    const SOUND_BASE_GAIN = { rain: 0.26, white: 0.22, cafe: 0.32, lofi: 0.30 };
     const soundButtons = $$('.sound-toggle');
     const volumeInputs = $$('.volume-range');
     const audioRigs = {};
@@ -2866,7 +2866,7 @@
         try {
           audioCtx = new AudioContextClass();
           audioMaster = audioCtx.createGain();
-          audioMaster.gain.value = 0.86;
+          audioMaster.gain.value = 0.74;
           audioMaster.connect(audioCtx.destination);
         } catch (error) {
           console.warn('Web Audio is unavailable.', error);
@@ -2937,26 +2937,26 @@
         const hiss = createLoopingNoise('white', rig);
         const highpass = audioCtx.createBiquadFilter();
         highpass.type = 'highpass';
-        highpass.frequency.value = 520;
+        highpass.frequency.value = 180;
         const lowpass = audioCtx.createBiquadFilter();
         lowpass.type = 'lowpass';
-        lowpass.frequency.value = 6800;
+        lowpass.frequency.value = 3200;
         const hissLevel = audioCtx.createGain();
-        hissLevel.gain.value = 0.62;
+        hissLevel.gain.value = 0.22;
         hiss.connect(highpass).connect(lowpass).connect(hissLevel).connect(bus);
 
         const rumble = createLoopingNoise('brown', rig);
         const rumbleFilter = audioCtx.createBiquadFilter();
         rumbleFilter.type = 'lowpass';
-        rumbleFilter.frequency.value = 420;
+        rumbleFilter.frequency.value = 200;
         const rumbleLevel = audioCtx.createGain();
-        rumbleLevel.gain.value = 0.42;
+        rumbleLevel.gain.value = 0.20;
         rumble.connect(rumbleFilter).connect(rumbleLevel).connect(bus);
 
         const lfo = audioCtx.createOscillator();
-        lfo.frequency.value = 0.17;
+        lfo.frequency.value = 0.06;
         const lfoDepth = audioCtx.createGain();
-        lfoDepth.gain.value = 0.09;
+        lfoDepth.gain.value = 0.04;
         lfo.connect(lfoDepth).connect(hissLevel.gain);
         lfo.start();
         rig.oscillators.push(lfo);
@@ -2966,12 +2966,12 @@
         const source = createLoopingNoise('white', rig);
         const highpass = audioCtx.createBiquadFilter();
         highpass.type = 'highpass';
-        highpass.frequency.value = 120;
+        highpass.frequency.value = 80;
         const lowpass = audioCtx.createBiquadFilter();
         lowpass.type = 'lowpass';
-        lowpass.frequency.value = 6200;
+        lowpass.frequency.value = 4800;
         const level = audioCtx.createGain();
-        level.gain.value = 0.50;
+        level.gain.value = 0.38;
         source.connect(highpass).connect(lowpass).connect(level).connect(bus);
       }
 
